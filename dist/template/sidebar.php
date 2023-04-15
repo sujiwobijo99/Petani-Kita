@@ -1,33 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="sb-nav-fixed">        
+    <body class="sb-nav-fixed">
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
+                    <div class="sb-sidenav-menu" style="margin-top: -2vh">
                         <div class="nav">
                             <img src="./assets/img/logo.png" width="200vw" alt="">
                             <div class="sb-sidenav-menu-heading">ADMIN</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="index.php?id=<?php echo $id ?>&role=<?php echo $role ?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Halaman Utama
                             </a>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="manajemen-user.php?id=<?php echo $id ?>&role=<?php echo $role ?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                 Manajemen User
                             </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseData" aria-expanded="false" aria-controls="collapseData">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Manajemen Data
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseData" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="data-tanaman.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Data Tanaman</a>
+                                    <a class="nav-link" href="manajemen-input.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Data Input</a>
+                                </nav>
+                            </div>
+                            <a href="login.php"><button type="button" class="btn btn-outline-primary" style="position: fixed;left: 50%;bottom: 20px;transform: translate(-50%, -50%);margin: 0 auto;">Keluar</button></a>
+                            <!-- <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Layouts
@@ -84,7 +83,7 @@
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
                         Start Bootstrap
-                    </div>
+                    </div> -->
                 </nav>
             </div>
             <div id="layoutSidenav_content">
