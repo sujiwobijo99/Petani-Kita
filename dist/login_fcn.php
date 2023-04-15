@@ -11,9 +11,9 @@ $role = $data['role'];
 
 if (isset($id)) {
     if ($id == 1) {
-        header("location:index.php?id=$id&role=$role");
+        header("location:index.html?id=$id&role=$role");
     } else {
-        header("location:index.php?id=$id&role=$role");
+        header("location:index.html?id=$id&role=$role");
     }
 } else {
     header("location:login.php?pesan=1");

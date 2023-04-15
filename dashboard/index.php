@@ -14,6 +14,7 @@ include "query.php"
 
 <body>
     <h1 align="center" style="margin: 15vw auto">Hello, <?php echo $nama ?>!</h1>
+    <!-- <a href="../index.php"><button type="button" class="btn btn-primary my-5">Logout</button></a> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 

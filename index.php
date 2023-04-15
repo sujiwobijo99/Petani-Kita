@@ -12,7 +12,7 @@
 
     <div class="container" align="center" style="margin: 10vw auto;">
         <h1>Petani Kita</h1>
-        <a href="dashboard/login.php"><button type="button" class="btn btn-primary my-5">Login</button></a>
+        <a href="dist/login.html"><button type="button" class="btn btn-primary my-5">Login</button></a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
