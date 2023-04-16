@@ -22,7 +22,7 @@ include "template/sidebar.php"
 
 <main>
     <div class="container-fluid px-4">
-        <h3 class="mx-4" align="right">Hi, <?php echo $nama ?>!</h3>
+        <h3 class="mx-4" align="right"></h3>
         <h1 class="mt-4">Dashboard</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Dashboard</li>

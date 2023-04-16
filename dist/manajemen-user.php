@@ -56,7 +56,15 @@ include "template/sidebar.php"
                             <tr>
                                 <td><?php echo $nomor++; ?></td>
                                 <td><?php echo $data['name']; ?></td>
-                                <td><?php echo $data['role']; ?></td>
+                                <td>
+                                    <?php
+                                    if ($data['role'] == 1) {
+                                        echo "Admin";
+                                    } else {
+                                        echo "User";
+                                    }
+                                    ?>
+                                </td>
                                 <td><?php echo $data['phone']; ?></td>
                                 <td>
                                     <a class="edit" style="color: white;text-decoration:none" href="edit_user.php?id=<?php echo $data['id'] . "&role=" . $data['role'] . "&ida=" . $_GET['id'] . "&rolea=" . $_GET['role']; ?>"><button class="btn btn-success"><strong>Edit</strong></button></a>

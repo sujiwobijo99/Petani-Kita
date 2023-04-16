@@ -11,4 +11,7 @@ $data = mysqli_fetch_array($query_mysql);
 $id = $data['id'];
 $role = $data['role'];
 $nama = $data['name'];
+$email = $data['email'];
 $phone = $data['phone'];
+$foto = $data['foto'];
+$gender = $data['gender'];
