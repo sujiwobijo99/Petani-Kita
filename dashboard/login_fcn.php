@@ -14,9 +14,13 @@ if (isset($id)) {
     if ($role == 1) {
         $_SESSION['login'] = true;
         $_SESSION['admin'] = true;
+        $_SESSION['id'] = $id;
+        $_SESSION['role'] = $role;
         header("location:index.php?id=$id&role=$role");
     } else {
         $_SESSION['login'] = true;
+        $_SESSION['id'] = $id;
+        $_SESSION['role'] = $role;
         header("location:profil.php?id=$id&role=$role");
     }
 } else {

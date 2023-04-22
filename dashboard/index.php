@@ -79,7 +79,6 @@ include "template/sidebar.php"
                             $query_mysql = mysqli_query($host, "SELECT COUNT(*) FROM `data-input`");
                             $data = mysqli_fetch_array($query_mysql);
                             echo $data['COUNT(*)']
-
                             ?>
                         </h2>
                     </div>
