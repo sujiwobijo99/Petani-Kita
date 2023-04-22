@@ -1,3 +1,12 @@
+<?php
+session_start();
+include "query.php";
+if (!isset($_SESSION['login'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +24,6 @@
 </head>
 
 <?php
-include "query.php";
 include "template/sidebar.php"
 ?>
 

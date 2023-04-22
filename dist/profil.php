@@ -1,3 +1,12 @@
+<?php
+session_start();
+include "query.php";
+if (!isset($_SESSION['login'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Leaderboard</title>
+    <title>Profil</title>
     <link rel="icon" href="assets/img/rose.png">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
@@ -15,7 +24,6 @@
 </head>
 
 <?php
-include "query.php";
 include "template/sidebar.php"
 ?>
 <!-- Begin Page Content -->

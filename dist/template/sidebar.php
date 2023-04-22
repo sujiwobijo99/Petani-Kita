@@ -39,7 +39,7 @@
                            <div class="collapse" id="collapseProfil" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                <nav class="sb-sidenav-menu-nested nav">
                                    <a class="nav-link" href="profil.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Lihat Profil</a>
-                                   <a class="nav-link" href="manajemen-input.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Ubah Password</a>
+                                   <a class="nav-link" href="password.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Ubah Password</a>
                                </nav>
                            </div>
                            <a class="nav-link" href="user-input.php?id=<?php echo $id ?>&role=<?php echo $role ?>">
@@ -51,7 +51,7 @@
                                Leaderboard
                            </a>
 
-                           <a href="login.php"><button type="button" class="btn btn-outline-primary" style="position: fixed;left: 50%;bottom: 20px;transform: translate(-50%, -50%);margin: 0 auto;">Keluar</button></a>
+                           <a href="logout_fcn.php"><button type="button" class="btn btn-outline-primary" style="position: fixed;left: 50%;bottom: 20px;transform: translate(-50%, -50%);margin: 0 auto;">Keluar</button></a>
                            <!-- <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>

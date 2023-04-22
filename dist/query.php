@@ -1,7 +1,7 @@
 <?php
 include 'conn_db.php';
 $id = $_GET['id'];
-$id = $_GET['role'];
+$role = $_GET['role'];
 
 
 $query_mysql = mysqli_query($host, "SELECT * FROM `user` WHERE `id` LIKE '$id'") or die(mysqli_error($host));
@@ -13,5 +13,10 @@ $role = $data['role'];
 $nama = $data['name'];
 $email = $data['email'];
 $phone = $data['phone'];
-$foto = $data['foto'];
+if ($data['foto'] != NULL) {
+    $foto = $data['foto'];
+} else {
+    $foto = "user.PNG";
+}
+// $foto = $data['foto'];
 $gender = $data['gender'];

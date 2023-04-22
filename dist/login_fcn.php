@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'conn_db.php';
 $phone = $_POST['phone'];
 $password = $_POST['password'];
@@ -10,7 +11,14 @@ $id = $data['id'];
 $role = $data['role'];
 
 if (isset($id)) {
-    header("location:index.php?id=$id&role=$role");
+    if ($role == 1) {
+        $_SESSION['login'] = true;
+        $_SESSION['admin'] = true;
+        header("location:index.php?id=$id&role=$role");
+    } else {
+        $_SESSION['login'] = true;
+        header("location:profil.php?id=$id&role=$role");
+    }
 } else {
     header("location:login.php?pesan=1");
 }

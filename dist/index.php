@@ -1,3 +1,18 @@
+<?php
+session_start();
+include "query.php";
+if (!isset($_SESSION['admin'])) {
+    if (!isset($_SESSION['login'])) {
+        header("Location: login.php");
+        exit;
+    } else {
+        header("location:profil.php?id=$id&role=$role");
+        exit;
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +30,6 @@
 </head>
 
 <?php
-include "query.php";
 include "template/sidebar.php"
 ?>
 
@@ -30,58 +44,127 @@ include "template/sidebar.php"
         <div class="row">
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-primary text-white mb-4">
-                    <div class="card-body">Primary Card</div>
+                    <div class="card-body">Jumlah Pengguna</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        <h2>
+                            <?php
+                            $query_mysql = mysqli_query($host, "SELECT COUNT(*) FROM `user`");
+                            $data = mysqli_fetch_array($query_mysql);
+                            echo $data['COUNT(*)']
+                            ?>
+                        </h2>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-warning text-white mb-4">
-                    <div class="card-body">Warning Card</div>
+                    <div class="card-body">Jumlah Tanaman</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        <h2>
+                            <?php
+                            $query_mysql = mysqli_query($host, "SELECT COUNT(*) FROM `user`");
+                            $data = mysqli_fetch_array($query_mysql);
+                            echo $data['COUNT(*)']
+                            ?>
+                        </h2>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-success text-white mb-4">
-                    <div class="card-body">Success Card</div>
+                    <div class="card-body">Jumlah Data Input</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        <h2>
+                            <?php
+                            $query_mysql = mysqli_query($host, "SELECT COUNT(*) FROM `data-input`");
+                            $data = mysqli_fetch_array($query_mysql);
+                            echo $data['COUNT(*)']
+
+                            ?>
+                        </h2>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-danger text-white mb-4">
-                    <div class="card-body">Danger Card</div>
+                    <div class="card-body">Pengguna Terbaik Minggu Ini</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        <h2>
+                            <?php
+
+                            $today = date('Y-m-d'); // Tanggal saat ini
+                            $dayOfWeek = date('N', strtotime($today)); // Mendapatkan hari dalam format angka (1 untuk Senin, 2 untuk Selasa, dan seterusnya)
+                            $diff = $dayOfWeek - 1; // Menghitung selisih hari dari hari pertama pekan (Senin)
+                            $firstDayOfWeek = date('Y-m-d', strtotime("-$diff days", strtotime($today))); // Mendapatkan tanggal hari pertama di pekan ini
+
+                            // echo $firstDayOfWeek; // Output: 2023-04-17 (contoh)
+
+                            $query_mysql = mysqli_query($host, "SELECT `id_user`, SUM(`jmlh_bibit`) AS `total_bibit` FROM `data-input` WHERE `tgl_tanam` BETWEEN '$firstDayOfWeek' AND '$today' GROUP BY `id_user` ORDER BY `total_bibit` DESC LIMIT 1;");
+                            $data = mysqli_fetch_array($query_mysql);
+                            $id_user = $data['id_user'];
+                            $query_user = mysqli_query($host, "SELECT * FROM `user` WHERE `id` LIKE '$id_user'") or die(mysqli_error($host));
+                            $user = mysqli_fetch_array($query_user);
+                            echo $user["name"]
+
+
+                            ?>
+                        </h2>
                     </div>
                 </div>
             </div>
         </div>
+        <?php
+        $query_mysql = mysqli_query(
+            $host,
+            "SELECT YEARWEEK(`tgl_tanam`) AS `minggu_ke`, SUM(`jmlh_bibit`) AS `total_bibit` FROM `data-input`GROUP BY `minggu_ke`;"
+        );
+
+        $labels = [];
+        $data = [];
+
+        while ($row = mysqli_fetch_assoc($query_mysql)) {
+            $date = $row['minggu_ke'];
+            $data = $row['total_bibit'];
+            $labels[] = $date;
+            $jumlah_bibit[] = $data;
+        }
+        $max_bibit = max($jumlah_bibit);
+
+        $data = array(
+            "labels" => $labels,
+            "datasets" => array(
+                array(
+                    "label" => "Jumlah Bibit",
+                    "backgroundColor" => "rgba(2,117,216,1)",
+                    "borderColor" => "rgba(2,117,216,1)",
+                    "data" => $jumlah_bibit
+                )
+            )
+        );
+
+        $json_data = json_encode($data);
+
+        // var_dump($labels);
+        // var_dump($data);
+        // echo $json_data;
+        ?>
         <div class="row">
-            <div class="col-xl-6">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-chart-area me-1"></i>
-                        Area Chart Example
-                    </div>
-                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                </div>
-            </div>
-            <div class="col-xl-6">
+            <div class="col-lg-6">
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-chart-bar me-1"></i>
-                        Bar Chart Example
+                        Data Bibit Mingguan
                     </div>
                     <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie me-1"></i>
+                        Data Sebaran Jenis Tanaman
+                    </div>
+                    <div class="card-body"><canvas id="myPieChart" width="100%" height="40"></canvas></div>
                 </div>
             </div>
         </div>
@@ -155,7 +238,69 @@ include "template/sidebar.php"
         </div>
     </div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 
-<?php
-include "template/footer.php"
-?>
+<script>
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+    // Bar Chart Example
+    var ctx = document.getElementById("myBarChart");
+    var myLineChart = new Chart(ctx, {
+        type: 'bar',
+        data: <?php echo $json_data; ?>,
+        options: {
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'month'
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 6
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: <?php echo round($max_bibit + ($max_bibit * 0.1)) ?>,
+                        maxTicksLimit: 5
+                    },
+                    gridLines: {
+                        display: true
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+</script>
+
+
+<footer class="py-4 bg-light mt-auto">
+    <div class="container-fluid px-4">
+        <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted">Copyright &copy; Petani Kita <script>
+                    document.write(new Date().getFullYear())
+                </script>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+<!-- <script src="assets/demo/chart-area-demo.js"></script> -->
+<!-- <script src="assets/demo/chart-bar-demo.js"></script> -->
+<script src="assets/demo/chart-pie-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="js/datatables-simple-demo.js"></script>
+</body>
+
+</html>

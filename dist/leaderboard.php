@@ -1,3 +1,12 @@
+<?php
+session_start();
+include "query.php";
+if (!isset($_SESSION['login'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +24,6 @@
 </head>
 
 <?php
-include "query.php";
 include "template/sidebar.php"
 ?>
 
@@ -140,11 +148,11 @@ include "template/sidebar.php"
     }
 
     .c-header {
-        padding: 1.6rem 0;
+        padding: 1rem 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2.4rem;
+        margin-bottom: 2rem;
         position: relative;
     }
 
@@ -520,21 +528,81 @@ include "template/sidebar.php"
 
 
 <div class="l-wrapper">
-    <div class="c-header"><img class="c-logo" src="assets/img/rose.png" draggable="false" />
-        <button class="c-button c-button--primary">Set Tanggal</button>
+    <div class="c-header">
+        <form action="leaderboard.php" method="get" style="display: flex">
+            <div class="col-md-3">
+                <img class="c-logo" src="assets/img/rose.png" draggable="false" />
+            </div>
+
+            <div class="col-md-3">
+                <lable style="color: var(--black)">Tanggal Mulai</lable>
+                <input type="date" class="form-control" id="tgl_mulai" name="tgl_mulai"></input>
+
+            </div>
+            <div class="col-md-3" style="margin-left: 2rem;">
+                <lable style="color: var(--black)">Tangal Akhir</lable>
+                <input type="date" class="form-control" id="tgl_akhir" name="tgl_akhir"></input>
+
+            </div>
+            <div class="col-md-3" style="margin-left: 2rem;">
+                <!-- <input type="text" style="opacity: 0"> -->
+                <button class="c-button c-button--primary">Set Tanggal</button>
+            </div>
+            <input type="text" style="opacity: 0" name="id" value="<?php echo $id ?>">
+            <input type="text" style="opacity: 0" name="role" value="<?php echo $role ?>">
+        </form>
+
+
     </div>
     <div class="l-grid">
         <div class="l-grid__item l-grid__item--sticky">
             <div class="c-card u-bg--light-gradient u-text--dark">
                 <div class="c-card__body">
                     <div class="u-display--flex u-justify--space-between">
-                        <div class="u-text--left">
+                        <?php
+                        if (!isset($_GET["tgl_mulai"]) ||  !isset($_GET["tgl_akhir"])) {
+                            $query_mysql = mysqli_query(
+                                $host,
+                                "SELECT *, FIND_IN_SET(`jmlh_bibit`, (SELECT GROUP_CONCAT(`jmlh_bibit` ORDER BY `jmlh_bibit` DESC) FROM `data-input`)) AS `peringkat` FROM `data-input` WHERE `id_user` = $id ORDER BY `jmlh_bibit` DESC;"
+                            ) or die(mysqli_error($host));
+                        } else {
+                            $start = $_GET["tgl_mulai"];
+                            $end = $_GET["tgl_akhir"];
+                            $query_mysql = mysqli_query(
+                                $host,
+                                "SELECT *, FIND_IN_SET(`jmlh_bibit`, (SELECT GROUP_CONCAT(`jmlh_bibit` ORDER BY `jmlh_bibit` DESC) FROM `data-input` WHERE `tgl_tanam` BETWEEN '$start' AND '$end')) AS `peringkat` FROM `data-input` WHERE `id_user` = $id AND `tgl_tanam` BETWEEN '$start' AND '$end' ORDER BY `jmlh_bibit` DESC;
+"
+                            ) or die(mysqli_error($host));
+                        }
+
+                        $data = mysqli_fetch_array($query_mysql);
+                        // var_dump($data);
+
+                        ?>
+                        <div class="u-text--center">
                             <div class="u-text--small">Peringkat Ku</div>
-                            <h4>5</h4>
+                            <h4 style="font-weight: 600;">
+                                <?php
+                                if ($data != NULL) {
+                                    echo $data['peringkat'];
+                                } else {
+                                    echo "-";
+                                }
+                                ?>
+
+                            </h4>
                         </div>
-                        <div class="u-text--right">
+                        <div class="u-text--center">
                             <div class="u-text--small">#Bibit</div>
-                            <h4>24</h4>
+                            <h4 style="font-weight: 600;">
+                                <?php
+                                if ($data != NULL) {
+                                    echo $data['jmlh_bibit'];
+                                } else {
+                                    echo "-";
+                                }
+                                ?>
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -568,79 +636,125 @@ include "template/sidebar.php"
 
 
 <script>
-    console.clear();
+    <?php
+    if (!isset($_GET["tgl_mulai"]) ||  !isset($_GET["tgl_akhir"])) {
+        $query_mysql = mysqli_query($host, "SELECT * FROM `data-input`ORDER BY `jmlh_bibit` DESC") or die(mysqli_error($host));
+    } else {
+        $start = $_GET["tgl_mulai"];
+        $end = $_GET["tgl_akhir"];
+        $query_mysql = mysqli_query($host, "SELECT * FROM `data-input` WHERE `tgl_tanam` BETWEEN '$start' AND '$end' ORDER BY `jmlh_bibit` DESC") or die(mysqli_error($host));
+    }
 
-    const team = [{
-        rank: 1,
-        name: 'Lewis Hamilton',
-        handle: 'lewishamilton',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LEWHAM01_Lewis_Hamilton/lewham01.png.transform/2col-retina/image.png',
-        kudos: 36,
-        sent: 31
-    }, {
-        rank: 2,
-        name: 'Kimi Raikkonen',
-        handle: 'kimimatiasraikkonen',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/K/KIMRAI01_Kimi_R%C3%A4ikk%C3%B6nen/kimrai01.png.transform/2col-retina/image.png',
-        kudos: 31,
-        sent: 21
-    }, {
-        rank: 3,
-        name: 'Sebastian Vettel',
-        handle: 'vettelofficial',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/S/SEBVET01_Sebastian_Vettel/sebvet01.png.transform/2col-retina/image.png',
-        kudos: 24,
-        sent: 7
-    }, {
-        rank: 4,
-        name: 'Max Verstappen',
-        handle: 'maxverstappen1',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png.transform/2col-retina/image.png',
-        kudos: 22,
-        sent: 4
-    }, {
-        rank: 5,
-        name: 'Lando Norris',
-        handle: 'landonorris',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LANNOR01_Lando_Norris/lannor01.png.transform/2col-retina/image.png',
-        kudos: 18,
-        sent: 16
-    }, {
-        rank: 6,
-        name: 'Charles Leclerc',
-        handle: 'charles_leclerc',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/C/CHALEC01_Charles_Leclerc/chalec01.png.transform/2col-retina/image.png',
-        kudos: 16,
-        sent: 6
-    }, {
-        rank: 7,
-        name: 'George Russell',
-        handle: 'georgerussell63',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/G/GEORUS01_George_Russell/georus01.png.transform/2col-retina/image.png',
-        kudos: 10,
-        sent: 21
-    }, {
-        rank: 8,
-        name: 'Daniel Ricciardo',
-        handle: 'danielricciardo',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/D/DANRIC01_Daniel_Ricciardo/danric01.png.transform/2col-retina/image.png',
-        kudos: 7,
-        sent: 46
-    }, {
-        rank: 9,
-        name: 'Alexander Albon',
-        handle: 'alex_albon',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/A/ALEALB01_Alexander_Albon/alealb01.png.transform/2col-retina/image.png',
-        kudos: 4,
-        sent: 2
-    }, {
-        rank: 10,
-        name: 'Carlos Sainz Jr.',
-        handle: 'carlossainz55',
-        img: 'https://www.formula1.com/content/dam/fom-website/drivers/C/CARSAI01_Carlos_Sainz/carsai01.png.transform/2col-retina/image.png',
-        kudos: 1,
-        sent: 24
-    }];
+    $data = array();
+    $i = 1;
+    while ($row = mysqli_fetch_assoc($query_mysql)) {
+        // 4. Buat array asosiatif untuk setiap baris data
+        $id_user = $row["id_user"];
+        $queryNamaUser = mysqli_query($host, "SELECT * FROM `user` WHERE `id` LIKE $id_user") or die(mysqli_error($host));
+        $user = mysqli_fetch_array($queryNamaUser);
+        if ($user['foto'] != NULL) {
+            $foto = $user['foto'];
+        } else {
+            $foto = "user.PNG";
+        }
+        $item = array(
+            "rank" => $i,
+            "name" => $user['name'],
+            "phone" => $user["phone"],
+            "img" => "assets/img/foto/" . $foto,
+            "kudos" => $row["jmlh_bibit"],
+            "sent" => 31
+        );
+
+        // 5. Tambahkan setiap array asosiatif ke dalam array utama
+        array_push($data, $item);
+        $i++;
+    }
+
+    $json = json_encode($data);
+
+
+    ?>
+    const team =
+        <?php
+        echo $json;
+        ?>
+
+    // [
+
+
+    //     {
+    //         rank: 1,
+    //         name: 'Lewis Hamilton',
+    //         handle: 'lewishamilton',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LEWHAM01_Lewis_Hamilton/lewham01.png.transform/2col-retina/image.png',
+    //         kudos: 36,
+    //         sent: 31
+    //     }, {
+    //         rank: 2,
+    //         name: 'Kimi Raikkonen',
+    //         handle: 'kimimatiasraikkonen',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/K/KIMRAI01_Kimi_R%C3%A4ikk%C3%B6nen/kimrai01.png.transform/2col-retina/image.png',
+    //         kudos: 31,
+    //         sent: 21
+    //     }, {
+    //         rank: 3,
+    //         name: 'Sebastian Vettel',
+    //         handle: 'vettelofficial',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/S/SEBVET01_Sebastian_Vettel/sebvet01.png.transform/2col-retina/image.png',
+    //         kudos: 24,
+    //         sent: 7
+    //     }, {
+    //         rank: 4,
+    //         name: 'Max Verstappen',
+    //         handle: 'maxverstappen1',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png.transform/2col-retina/image.png',
+    //         kudos: 22,
+    //         sent: 4
+    //     }, {
+    //         rank: 5,
+    //         name: 'Lando Norris',
+    //         handle: 'landonorris',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LANNOR01_Lando_Norris/lannor01.png.transform/2col-retina/image.png',
+    //         kudos: 18,
+    //         sent: 16
+    //     }, {
+    //         rank: 6,
+    //         name: 'Charles Leclerc',
+    //         handle: 'charles_leclerc',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/C/CHALEC01_Charles_Leclerc/chalec01.png.transform/2col-retina/image.png',
+    //         kudos: 16,
+    //         sent: 6
+    //     }, {
+    //         rank: 7,
+    //         name: 'George Russell',
+    //         handle: 'georgerussell63',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/G/GEORUS01_George_Russell/georus01.png.transform/2col-retina/image.png',
+    //         kudos: 10,
+    //         sent: 21
+    //     }, {
+    //         rank: 8,
+    //         name: 'Daniel Ricciardo',
+    //         handle: 'danielricciardo',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/D/DANRIC01_Daniel_Ricciardo/danric01.png.transform/2col-retina/image.png',
+    //         kudos: 7,
+    //         sent: 46
+    //     }, {
+    //         rank: 9,
+    //         name: 'Alexander Albon',
+    //         handle: 'alex_albon',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/A/ALEALB01_Alexander_Albon/alealb01.png.transform/2col-retina/image.png',
+    //         kudos: 4,
+    //         sent: 2
+    //     }, {
+    //         rank: 10,
+    //         name: 'Carlos Sainz Jr.',
+    //         handle: 'carlossainz55',
+    //         img: 'https://www.formula1.com/content/dam/fom-website/drivers/C/CARSAI01_Carlos_Sainz/carsai01.png.transform/2col-retina/image.png',
+    //         kudos: 1,
+    //         sent: 24
+    //     }
+    // ];
 
     const randomEmoji = () => {
         const emojis = ['👏', '👍', '🙌', '🤩', '🔥', '⭐️', '🏆', '💯'];
@@ -658,7 +772,7 @@ include "template/sidebar.php"
 				<img class="c-avatar c-media__img" src="${member.img}" />
 				<div class="c-media__content">
 					<div class="c-media__title">${member.name}</div>
-					<a class="c-media__link u-text--small" href="https://instagram.com/${member.handle}" target="_blank">@${member.handle}</a>
+					<a class="c-media__link u-text--small" href="mailto:${member.phone}" target="_blank">${member.phone}</a>
 				</div>
 			</div>
 			<div class="u-text--right c-kudos">
@@ -692,8 +806,8 @@ include "template/sidebar.php"
     const winnerCard = document.getElementById('winner')
     winnerCard.innerHTML = `
 	<div class="u-text-small u-text--medium">Pengguna Terbaik</div>
-	<img class="c-avatar c-avatar--lg" src="${winner.img}"/>
+	<img class="c-avatar c-avatar--lg mt-2" src="${winner.img}"/>
 	<h5>${winner.name}</h5>
-	<span class="u-text--teal u-text--small">${winner.name}</span>
+	<span class="u-text--teal u-text--small">${winner.phone}</span>
 `
 </script>
