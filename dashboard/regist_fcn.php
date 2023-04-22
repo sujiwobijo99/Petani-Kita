@@ -1,6 +1,6 @@
 <?php
 include 'conn_db.php';
-$nama = ucfirst($_GET['fnama']) . " " . ucfirst($_GET['lnama']);
+$nama = $_POST['nama'];
 // $nama = $_POST['name'];
 $phone = $_POST['phone'];
 $password = $_POST['password'];

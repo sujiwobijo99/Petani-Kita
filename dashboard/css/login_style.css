@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+}
+
+.login {
+    /* border: black solid; */
+    display: flex;
+}
+
+.form-login {
+    width: fit-content;
+    margin: auto;
+    /* border: black solid; */
+}
+
+.form-login h1 {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 110%;
+    margin-top: 0;
+    margin-bottom: 48px;
+}
+
+.input-login-2 {
+    margin-top: 16px;
+}
+
+.input-login-1 label,
+.input-login-2 label {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    display: block;
+    margin-bottom: 8px;
+    color: #21272A;
+}
+
+.input-login-1 input,
+.input-login-2 input {
+    width: 469.5px;
+    height: 48px;
+    background-color: #dfe3e7;
+    border-color: #C1C7CD;
+    border-width: 0 0px 1px 0px;
+    font-size: 30px;
+}
+
+.input-login-2 p {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 140%;
+    color: #697077;
+    margin-top: 2px;
+    margin-bottom: 0;
+}
+
+.input-login-2 i{
+    position: relative;
+    right: 35px;
+    bottom: 3px; 
+    cursor: pointer;
+}
+
+.login button {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 100%;
+    color: #ffffff;
+    background-color: #0F62FE;
+    width: 475px;
+    height: 48px;
+    margin-top: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.login a {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    color: #001D6C;
+    text-decoration: none;
+    margin-top: 48px;
+    display: block;
+}

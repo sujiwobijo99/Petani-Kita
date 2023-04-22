@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+}
+
+.daftar {
+    display: flex;
+}
+
+.form-daftar {
+    width: 50%;
+}
+
+.form-daftar form {
+    position: relative;
+    top: 100px;
+    margin: auto;
+    width: fit-content;
+    /* border: black solid; */
+}
+
+.form-daftar form h1 {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 110%;
+    margin-top: 0;
+    margin-bottom: 48px;
+}
+
+.input-daftar-1 label,
+.input-daftar-2 label,
+.input-daftar-3 label {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    display: block;
+    margin-bottom: 8px;
+    color: #21272A;
+}
+
+.input-daftar-1 input,
+.input-daftar-2 input,
+.input-daftar-3 input {
+    width: 469.5px;
+    height: 48px;
+    background-color: #dfe3e7;
+    border-color: #C1C7CD;
+    border-width: 0 0px 1px 0px;
+    font-size: 30px;
+    margin-bottom: 16px;
+}
+
+.daftar button {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 100%;
+    color: #ffffff;
+    background-color: #0F62FE;
+    width: 475px;
+    height: 48px;
+    border: none;
+    cursor: pointer;
+}
+
+.daftar a {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    color: #001D6C;
+    text-decoration: none;
+    margin-top: 48px;
+    display: block;
+}
+
+.popup {
+    font-family: 'Inter', sans-serif, 'Poppins';
+    font-style: normal;
+    text-align: center;
+    width: 572px;
+    height: 169px;
+    border: black solid;
+    background-color: #e0e2e6;
+    border-radius: 40px;
+    position: absolute;
+    top: 180px;
+    left: 280px; 
+    transform: translate(-50%, -50%) scale(0.1);
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+}
+
+.regis{
+    visibility: visible;
+    top: 180px;
+    left: 280px;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+
+.popup h1 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 110%;
+    color: #21272A;
+    margin-top: 40px;
+}
+
+.popup p {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0.5px;
+    color: #21272A;
+}
+
+.popup button {
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #0F62FE;
+    width: 131px;
+    height: 37px;
+    border: 1px solid #0F62FE;
+}
