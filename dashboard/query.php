@@ -1,7 +1,8 @@
 <?php
 include 'conn_db.php';
-$id = $_GET['id'];
-$role = $_GET['role'];
+
+$id = $_SESSION['id'];
+$role = $_SESSION['role'];
 
 
 $query_mysql = mysqli_query($host, "SELECT * FROM `user` WHERE `id` LIKE '$id'") or die(mysqli_error($host));

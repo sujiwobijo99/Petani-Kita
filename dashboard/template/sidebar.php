@@ -6,15 +6,15 @@
                    <div class="sb-sidenav-menu" style="margin-top: -2vh">
                        <div class="nav">
                            <img src="./assets/img/logo.png" width="200vw" alt="">
-                           <?php if ($_GET['role'] == 1) {
+                           <?php if ($_SESSION['role'] == 1) {
 
                             ?>
                                <div class="sb-sidenav-menu-heading">ADMIN</div>
-                               <a class="nav-link" href="index.php?id=<?php echo $id ?>&role=<?php echo $role ?>">
+                               <a class="nav-link" href="index.php">
                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                    Halaman Utama
                                </a>
-                               <a class="nav-link" href="manajemen-user.php?id=<?php echo $id ?>&role=<?php echo $role ?>">
+                               <a class="nav-link" href="manajemen-user.php">
                                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                    Manajemen User
                                </a>
@@ -25,12 +25,20 @@
                                </a>
                                <div class="collapse" id="collapseData" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                    <nav class="sb-sidenav-menu-nested nav">
-                                       <a class="nav-link" href="data-tanaman.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Data Tanaman</a>
-                                       <a class="nav-link" href="manajemen-input.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Data Input</a>
+                                       <a class="nav-link" href="data-tanaman.php">Data Tanaman</a>
+                                       <a class="nav-link" href="manajemen-input.php">Data Input</a>
                                    </nav>
                                </div>
                            <?php } ?>
                            <div class="sb-sidenav-menu-heading">USER</div>
+                           <?php if ($_SESSION['role'] == 2) {
+
+                            ?>
+                               <a class="nav-link" href="index-user.php">
+                                   <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                   Halaman Utama
+                               </a>
+                           <?php } ?>
                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProfil" aria-expanded="false" aria-controls="collapseProfil">
                                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                                Profil
@@ -38,15 +46,15 @@
                            </a>
                            <div class="collapse" id="collapseProfil" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                <nav class="sb-sidenav-menu-nested nav">
-                                   <a class="nav-link" href="profil.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Lihat Profil</a>
-                                   <a class="nav-link" href="password.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Ubah Password</a>
+                                   <a class="nav-link" href="profil.php">Lihat Profil</a>
+                                   <a class="nav-link" href="password.php">Ubah Password</a>
                                </nav>
                            </div>
-                           <a class="nav-link" href="user-input.php?id=<?php echo $id ?>&role=<?php echo $role ?>">
+                           <a class="nav-link" href="user-input.php">
                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
                                Data Input
                            </a>
-                           <a class="nav-link" href="leaderboard.php?id=<?php echo $id ?>&role=<?php echo $role ?>">
+                           <a class="nav-link" href="leaderboard.php">
                                <div class="sb-nav-link-icon"><i class="fas fa-layer-group"></i></div>
                                Leaderboard
                            </a>

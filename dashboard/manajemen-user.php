@@ -6,7 +6,7 @@ if (!isset($_SESSION['admin'])) {
         header("Location: login.php");
         exit;
     } else {
-        header("location:profil.php?id=$id&role=$role");
+        header("location:profil.php");
         exit;
     }
 }
@@ -80,8 +80,8 @@ include "template/sidebar.php"
                                 </td>
                                 <td><?php echo $data['phone']; ?></td>
                                 <td>
-                                    <a class="edit" style="color: white;text-decoration:none" href="edit_user.php?id=<?php echo $data['id'] . "&role=" . $data['role'] . "&ida=" . $_GET['id'] . "&rolea=" . $_GET['role']; ?>"><button class="btn btn-success"><strong>Edit</strong></button></a>
-                                    <a class="edit" style="color: white;text-decoration:none" href="hapus.php?id=<?php echo $data['id'] . "&role=" . $data['role'] . "&ida=" . $_GET['id'] . "&rolea=" . $_GET['role'];; ?>"><button class="btn btn-danger"><strong>Hapus</strong></button></a>
+                                    <a class="edit" style="color: white;text-decoration:none" href="edit_user.php?id=<?php echo $data['id'] . "&role=" . $data['role'] ?>"><button class="btn btn-success"><strong>Edit</strong></button></a>
+                                    <a class="edit" style="color: white;text-decoration:none" href="hapus.php?id=<?php echo $data['id'] . "&role=" . $data['role'] ?>"><button class="btn btn-danger"><strong>Hapus</strong></button></a>
                                 </td>
                             </tr>
                         <?php } ?>

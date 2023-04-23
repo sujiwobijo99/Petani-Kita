@@ -811,3 +811,7 @@ include "template/sidebar.php"
 	<span class="u-text--teal u-text--small">${winner.phone}</span>
 `
 </script>
+
+<?php
+include "template/footer.php"
+?>
