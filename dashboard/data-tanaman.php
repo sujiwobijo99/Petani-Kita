@@ -71,7 +71,7 @@ include "template/sidebar.php"
             <div class="card-header">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fas fa-plus"></i> Tambah Data Tanaman
+                    <i class="fas fa-plus"></i> Tambah Tanaman
                 </button>
 
                 <!-- Modal -->
@@ -143,28 +143,63 @@ include "template/sidebar.php"
                             <td><?php echo $data['felp']; ?></td>
                             <td><?php echo $data['febp']; ?></td>
                             <td>
-                                <button class="btn btn-success"><strong>Ubah</strong></button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                    Hapus
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $nomor; ?>">
+                                    <strong> Ubah</strong>
                                 </button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    <strong> Hapus</strong>
+                                </button>
+                                <!-- Modal Ubah-->
+                                <div class="modal fade" id="editModal<?php echo $nomor; ?>" tabindex="-1" aria-labelledby="editModal<?php echo $nomor; ?>Label" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="deleteModalLabel">Modal title</h1>
+                                                <h1 class="modal-title fs-5" id="editModal<?php echo $nomor; ?>Label">Ubah Data</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body" align="center">
-                                                Apakah Anda yakin inginn menghapus data tanaman <?php echo $data['nama'] ?> ?
+                                            <div class="modal-body">
+                                                <form action="tambah-tanaman.php" method="post">
+                                                    <input type="text" style="opacity: 0" name="id" value="<?php echo $id ?>">
+                                                    <div class="modal-body" style="margin-top: -2rem;">
+                                                        <div>
+                                                            <label for="nama" class="col-form-label">Nama Tanaman:</label>
+                                                            <input type="text" class="form-control" id="nama" name="nama">
+                                                        </div>
+                                                        <div>
+                                                            <label for="felp" class="col-form-label">Faktor Estimasi Lama Panen :</label>
+                                                            <input type="float" class="form-control" id="felp" name="felp"></input>
+                                                        </div>
+                                                        <div>
+                                                            <label for="febp" class="col-form-label">Faktor Estimasi Bobot Panen :</label>
+                                                            <input type="float" class="form-control" id="febp" name="febp"></input>
+                                                        </div>
+                                                    </div>
                                             </div>
-                                            <div class=" modal-footer">
+                                            <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <!-- Modal Hapus -->
+                                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="deleteModalLabel">Hapus Data</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body" align="center">
+                                                    Apakah Anda yakin inginn menghapus data tanaman <?php echo $data['nama'] ?> ?
+                                                </div>
+                                                <div class=" modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             </td>
                         </tr>
                     <?php } ?>

@@ -95,14 +95,21 @@ include "template/sidebar.php"
 
             $labels = [];
             $data = [];
-
-            while ($row = mysqli_fetch_assoc($query_mysql)) {
-                $date = $row['minggu_ke'];
-                $data = $row['total_bibit'];
-                $labels[] = $date;
-                $jumlah_bibit[] = $data;
+            if (mysqli_fetch_assoc($query_mysql) != NULL) {
+                while ($row = mysqli_fetch_assoc($query_mysql)) {
+                    $date = $row['minggu_ke'];
+                    $data = $row['total_bibit'];
+                    $labels[] = $date;
+                    $jumlah_bibit[] = $data;
+                }
+                $max_bibit = max($jumlah_bibit);
+                $treshold = round($max_bibit + ($max_bibit * 0.1));
+            } else {
+                $labels = [];
+                $jumlah_bibit = [];
+                $treshold = 10;
             }
-            $max_bibit = max($jumlah_bibit);
+
 
             $data = array(
                 "labels" => $labels,
@@ -175,7 +182,7 @@ include "template/sidebar.php"
                 yAxes: [{
                     ticks: {
                         min: 0,
-                        max: <?php echo round($max_bibit + ($max_bibit * 0.1)) ?>,
+                        max: <?php echo $treshold ?>,
                         maxTicksLimit: 5
                     },
                     gridLines: {

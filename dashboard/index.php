@@ -115,7 +115,7 @@ include "template/sidebar.php"
         <?php
         $query_mysql = mysqli_query(
             $host,
-            "SELECT YEARWEEK(`tgl_tanam`) AS `minggu_ke`, SUM(`jmlh_bibit`) AS `total_bibit` FROM `data-input`GROUP BY `minggu_ke`;"
+            "SELECT WEEK(`tgl_tanam`) AS `minggu_ke`, SUM(`jmlh_bibit`) AS `total_bibit` FROM `data-input`GROUP BY `minggu_ke`;"
         );
 
         $labels = [];
@@ -124,7 +124,7 @@ include "template/sidebar.php"
         while ($row = mysqli_fetch_assoc($query_mysql)) {
             $date = $row['minggu_ke'];
             $data = $row['total_bibit'];
-            $labels[] = $date;
+            $labels[] = "Pekan "   . $date;
             $jumlah_bibit[] = $data;
         }
         $max_bibit = max($jumlah_bibit);
@@ -184,6 +184,7 @@ include "template/sidebar.php"
                             <th>Luas Area Tanam</th>
                             <th>Estimasi Waktu Panen</th>
                             <th>Estimasi Hasil Panen</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -196,6 +197,7 @@ include "template/sidebar.php"
                             <th>Jumlah Bibit Tanam</th>
                             <th>Estimasi Waktu Panen</th>
                             <th>Estimasi Hasil Panen</th>
+                            <th>Status</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -227,6 +229,23 @@ include "template/sidebar.php"
                                 <td><?php echo $data['jmlh_bibit']; ?></td>
                                 <td><?php echo $data['est_panen']; ?></td>
                                 <td><?php echo $data['est_bobot']; ?></td>
+                                <td>
+                                    <?php
+                                    $tgl_panen = $data['est_panen'];
+                                    $todayDate = date("Y-m-d");
+                                    $panenDateTime = new DateTime($tgl_panen);
+                                    $todayDateTime = new DateTime($todayDate);
+                                    $selisih = $todayDateTime->diff($panenDateTime);
+                                    $selisihHari =  $selisih->format("%r%a");
+                                    if ($selisihHari > 0) {
+                                        echo "<button class='btn btn-warning'>Panen: <strong>$selisihHari</strong> Hari Lagi</button>";
+                                    } else if ($selisihHari == 0) {
+                                        echo "<button class='btn btn-primary'><strong>Siap Panen</strong></button>";
+                                    } else {
+                                        echo "<button class='btn btn-success'><strong>Selesai Panen</strong></button>";
+                                    }
+                                    ?>
+                                </td>
 
                             </tr>
                         <?php } ?>

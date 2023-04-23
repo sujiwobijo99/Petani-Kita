@@ -71,7 +71,7 @@ include "template/sidebar.php"
             <div class="card-header">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fas fa-plus"></i> Tambah Data Input
+                    <i class="fas fa-plus"></i> Tambah Input
                 </button>
 
                 <!-- Modal -->
@@ -138,6 +138,7 @@ include "template/sidebar.php"
                         <th>Luas Area Tanam</th>
                         <th>Estimasi Waktu Panen</th>
                         <th>Estimasi Hasil Panen</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -151,6 +152,7 @@ include "template/sidebar.php"
                         <th>Jumlah Bibit Tanam</th>
                         <th>Estimasi Waktu Panen</th>
                         <th>Estimasi Hasil Panen</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </tfoot>
@@ -183,6 +185,23 @@ include "template/sidebar.php"
                             <td><?php echo $data['jmlh_bibit']; ?></td>
                             <td><?php echo $data['est_panen']; ?></td>
                             <td><?php echo $data['est_bobot']; ?></td>
+                            <td>
+                                <?php
+                                $tgl_panen = $data['est_panen'];
+                                $todayDate = date("Y-m-d");
+                                $panenDateTime = new DateTime($tgl_panen);
+                                $todayDateTime = new DateTime($todayDate);
+                                $selisih = $todayDateTime->diff($panenDateTime);
+                                $selisihHari =  $selisih->format("%r%a");
+                                if ($selisihHari > 0) {
+                                    echo "<button class='btn btn-warning'>Panen: <strong>$selisihHari</strong> Hari Lagi</button>";
+                                } else if ($selisihHari == 0) {
+                                    echo "<button class='btn btn-primary'><strong>Siap Panen</strong></button>";
+                                } else {
+                                    echo "<button class='btn btn-success'><strong>Selesai Panen</strong></button>";
+                                }
+                                ?>
+                            </td>
                             <td>
                                 <button class="btn btn-success"><strong>Ubah</strong></button>
                                 <button class="btn btn-danger" onclick="return confirm('Apakah anda yakin ingin mennghapus data tanaman <?php echo $tanaman['nama'] ?> milik <?php echo $user['name'] ?> ?');"><strong>Hapus</strong></button>
