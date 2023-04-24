@@ -55,12 +55,28 @@ include "template/sidebar.php"
                     Data Berhasil Disimpan!
                 </div>
                 </div>";
-            } else {
+            } else if ($_GET['pesan'] == 2) {
                 echo "
-                <div class='alert alert-danger d-flex align-items-center' style='width: fit-content; padding: 0.5rem;' role='alert'>
-                <svg class='bi flex-shrink-0' style='width: 1.5rem ;height: 2rem; margin-right:1rem' role='img' aria-label='Success:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                <div class='alert alert-success d-flex align-items-center' style='width: fit-content; padding: 0.5rem;' role='alert'>
+                <svg class='bi flex-shrink-0' style='width: 1.5rem ;height: 2rem; margin-right:1rem' role='img' aria-label='Success:'><use xlink:href='#check-circle-fill'/></svg>
                 <div>
-                    Data Gagal Disimpan!
+                    Data Berhasil Diubah!
+                </div>
+                </div>";
+            } else if ($_GET['pesan'] == 3) {
+                echo "
+                <div class='alert alert-warning  d-flex align-items-center' style='width: fit-content; padding: 0.5rem;' role='alert'>
+                <svg class='bi flex-shrink-0 me-2' style='width: 1.5rem ;height: 2rem; margin-right:1rem' role='img' aria-label='Warning:'><use xlink:href='#info-fill'/></svg>
+                <div>
+                    Data Berhasil Dihapus!
+                </div>
+                </div>";
+            } else if ($_GET['pesan'] == 4) {
+                echo "
+                <div class='alert alert-danger  d-flex align-items-center' style='width: fit-content; padding: 0.5rem;' role='alert'>
+                <svg class='bi flex-shrink-0 me-2' style='width: 1.5rem ;height: 2rem; margin-right:1rem' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                <div>
+                    Perubahan Gagal Disimpan!
                 </div>
                 </div>";
             }
@@ -84,7 +100,7 @@ include "template/sidebar.php"
                             </div>
                             <form action="input_fcn.php" method="post">
                                 <input type="text" style="opacity: 0" name="id" value="<?php echo $id ?>">
-                                <input type="text" style="opacity: 0" name="role" value="<?php echo $role ?>">
+                                <input type="text" style="opacity: 0" name="page" value="2">
                                 <div class="modal-body" style="margin-top: -2rem;">
                                     <div class="mb-3">
                                         <label for="nama" class="col-form-label">Tanaman:</label>
@@ -131,13 +147,14 @@ include "template/sidebar.php"
                 <thead>
                     <tr>
                         <th>Nomor</th>
-                        <th>Nama Pengguna</th>
+                        <th>Penguna</th>
                         <th>Tanaman</th>
-                        <th>Daerah Tanam</th>
+                        <th>Daerah</th>
                         <th>Waktu Tanam</th>
-                        <th>Luas Area Tanam</th>
-                        <th>Estimasi Waktu Panen</th>
-                        <th>Estimasi Hasil Panen</th>
+                        <th>Luas Area (m2)</th>
+                        <th>Jumlah Bibit (pcs)</th>
+                        <th>Est. Waktu Panen</th>
+                        <th>Est. Hasil Panen (Kg)</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -145,13 +162,14 @@ include "template/sidebar.php"
                 <tfoot>
                     <tr>
                         <th>Nomor</th>
-                        <th>Nama Penguna</th>
+                        <th>Penguna</th>
                         <th>Tanaman</th>
-                        <th>Daerah Tanam</th>
+                        <th>Daerah</th>
                         <th>Waktu Tanam</th>
-                        <th>Jumlah Bibit Tanam</th>
-                        <th>Estimasi Waktu Panen</th>
-                        <th>Estimasi Hasil Panen</th>
+                        <th>Luas Area (m2)</th>
+                        <th>Jumlah Bibit (pcs)</th>
+                        <th>Est. Waktu Panen</th>
+                        <th>Est. Hasil Panen (Kg)</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -182,6 +200,7 @@ include "template/sidebar.php"
                             </td>
                             <td><?php echo $data['daerah']; ?></td>
                             <td><?php echo $data['tgl_tanam']; ?></td>
+                            <td><?php echo $data['luas']; ?></td>
                             <td><?php echo $data['jmlh_bibit']; ?></td>
                             <td><?php echo $data['est_panen']; ?></td>
                             <td><?php echo $data['est_bobot']; ?></td>
@@ -203,15 +222,90 @@ include "template/sidebar.php"
                                 ?>
                             </td>
                             <td>
-                                <button class="btn btn-success"><strong>Ubah</strong></button>
-                                <button class="btn btn-danger" onclick="return confirm('Apakah anda yakin ingin mennghapus data tanaman <?php echo $tanaman['nama'] ?> milik <?php echo $user['name'] ?> ?');"><strong>Hapus</strong></button>
-                                <!-- Modal -->
-                        </tr>
-                    <?php } ?>
-
-                </tbody>
-            </table>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $nomor; ?>">
+                                    <strong> Ubah</strong>
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $nomor; ?>">
+                                    <strong> Hapus</strong>
+                                </button>
+                                <!-- Modal Ubah-->
+                                <div class="modal fade" id="editModal<?php echo $nomor; ?>" tabindex="-1" aria-labelledby="editModal<?php echo $nomor; ?>Label" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="editModal<?php echo $nomor; ?>Label">Ubah Data</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="edit_input_fcn.php" method="post">
+                                                    <input type="text" style="opacity: 0" name="id" value="<?php echo $data['id']; ?>">
+                                                    <input type="text" style="opacity: 0" name="page" value="1">
+                                                    <div class="modal-body" style="margin-top: -2rem;">
+                                                        <div class="mb-3">
+                                                            <label for="nama" class="col-form-label">Tanaman:</label>
+                                                            <div class="input-group mb-3">
+                                                                <select class="form-select" id="inputGroupSelect" name="id_tanaman">
+                                                                    <option selected>Pilih Tanaman</option>
+                                                                    <?php
+                                                                    $query_plant_option = mysqli_query($host, "SELECT * FROM `plant`") or die(mysqli_error($host));
+                                                                    while ($plant = mysqli_fetch_array($query_plant_option)) {
+                                                                    ?>
+                                                                        <option value="<?php echo $plant['id'] ?>"><?php echo $plant['nama'] ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="jmlh_bibit" class="col-form-label">Jumlah Bibit :</label>
+                                                            <input type="float" class="form-control" id="jmlh_bibit" name="jmlh_bibit" value="<?php echo $data['jmlh_bibit']; ?>"></input>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="daerah" class="col-form-label">Daerah Tanam :</label>
+                                                            <input type="float" class="form-control" id="daerah" name="daerah" value="<?php echo $data['daerah']; ?>"></input>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="luas" class="col-form-label">Luas Area Tanam :</label>
+                                                            <input type="float" class="form-control" id="luas" name="luas" value="<?php echo $data['luas']; ?>"></input>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="tgl_tanam" class="col-form-label">Tanggal Tanam :</label>
+                                                            <input type="date" class="form-control" id="tgl_tanam" name="tgl_tanam" value="<?php echo $data['tgl_tanam']; ?>"></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
         </div>
+        <!-- Modal Hapus -->
+        <div class="modal fade" id="deleteModal<?php echo $nomor; ?>" tabindex="-1" aria-labelledby="deleteModal<?php echo $nomor; ?>Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModal<?php echo $nomor; ?>Label">Hapus Data</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        Apakah Anda yakin ingin menghapus data input <strong> <?php echo $user['name'] ?> </strong>?
+                    </div>
+                    <div class=" modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <a href="hapus_input_fcn.php?id=<?php echo $data['id'] ?>&page=1"><button type="button" class="btn btn-primary">Ya</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </td>
+        </tr>
+    <?php } ?>
+
+    </tbody>
+    </table>
+    </div>
     </div>
 </main>
 

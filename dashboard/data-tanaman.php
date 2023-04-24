@@ -56,12 +56,28 @@ include "template/sidebar.php"
                     Data Berhasil Disimpan!
                 </div>
                 </div>";
-            } else {
+            } else if ($_GET['pesan'] == 2) {
                 echo "
-                <div class='alert alert-danger d-flex align-items-center' style='width: fit-content; padding: 0.5rem;' role='alert'>
-                <svg class='bi flex-shrink-0' style='width: 1.5rem ;height: 2rem; margin-right:1rem' role='img' aria-label='Success:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                <div class='alert alert-success d-flex align-items-center' style='width: fit-content; padding: 0.5rem;' role='alert'>
+                <svg class='bi flex-shrink-0' style='width: 1.5rem ;height: 2rem; margin-right:1rem' role='img' aria-label='Success:'><use xlink:href='#check-circle-fill'/></svg>
                 <div>
-                    Data Gagal Disimpan!
+                    Data Berhasil Diubah!
+                </div>
+                </div>";
+            } else if ($_GET['pesan'] == 3) {
+                echo "
+                <div class='alert alert-warning  d-flex align-items-center' style='width: fit-content; padding: 0.5rem;' role='alert'>
+                <svg class='bi flex-shrink-0 me-2' style='width: 1.5rem ;height: 2rem; margin-right:1rem' role='img' aria-label='Warning:'><use xlink:href='#info-fill'/></svg>
+                <div>
+                    Data Berhasil Dihapus!
+                </div>
+                </div>";
+            } else if ($_GET['pesan'] == 4) {
+                echo "
+                <div class='alert alert-danger  d-flex align-items-center' style='width: fit-content; padding: 0.5rem;' role='alert'>
+                <svg class='bi flex-shrink-0 me-2' style='width: 1.5rem ;height: 2rem; margin-right:1rem' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                <div>
+                    Perubahan Gagal Disimpan!
                 </div>
                 </div>";
             }
@@ -146,7 +162,7 @@ include "template/sidebar.php"
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $nomor; ?>">
                                     <strong> Ubah</strong>
                                 </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $nomor; ?>">
                                     <strong> Hapus</strong>
                                 </button>
                                 <!-- Modal Ubah-->
@@ -158,55 +174,56 @@ include "template/sidebar.php"
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="tambah-tanaman.php" method="post">
-                                                    <input type="text" style="opacity: 0" name="id" value="<?php echo $id ?>">
+                                                <form action="edit-tanaman.php" method="post">
+                                                    <input type="text" style="opacity: 0" name="id" value="<?php echo $data['id'] ?>">
                                                     <div class="modal-body" style="margin-top: -2rem;">
                                                         <div>
                                                             <label for="nama" class="col-form-label">Nama Tanaman:</label>
-                                                            <input type="text" class="form-control" id="nama" name="nama">
+                                                            <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $data['nama'] ?>">
                                                         </div>
                                                         <div>
                                                             <label for="felp" class="col-form-label">Faktor Estimasi Lama Panen :</label>
-                                                            <input type="float" class="form-control" id="felp" name="felp"></input>
+                                                            <input type="float" class="form-control" id="felp" name="felp" value="<?php echo $data['felp'] ?>"></input>
                                                         </div>
                                                         <div>
                                                             <label for="febp" class="col-form-label">Faktor Estimasi Bobot Panen :</label>
-                                                            <input type="float" class="form-control" id="febp" name="febp"></input>
+                                                            <input type="float" class="form-control" id="febp" name="febp" value="<?php echo $data['febp'] ?>"></input>
                                                         </div>
                                                     </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-primary">Simpan</button>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal Hapus -->
-                                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="deleteModalLabel">Hapus Data</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body" align="center">
-                                                    Apakah Anda yakin inginn menghapus data tanaman <?php echo $data['nama'] ?> ?
-                                                </div>
-                                                <div class=" modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                            </td>
-                        </tr>
-                    <?php } ?>
-
-                </tbody>
-            </table>
+                                </div>
         </div>
+        <!-- Modal Hapus -->
+        <div class="modal fade" id="deleteModal<?php echo $nomor; ?>" tabindex="-1" aria-labelledby="deleteModal<?php echo $nomor; ?>Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModal<?php echo $nomor; ?>Label">Hapus Data</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" align="center">
+                        Apakah Anda yakin ingin menghapus data tanaman <strong> <?php echo $data['nama'] ?> </strong>?
+                    </div>
+                    <div class=" modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <a href="hapus_tanaman_fcn.php?id=<?php echo $data['id'] ?>"><button type="button" class="btn btn-primary">Ya</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </td>
+        </tr>
+    <?php } ?>
+
+    </tbody>
+    </table>
+    </div>
     </div>
 </main>
 

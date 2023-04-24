@@ -100,12 +100,14 @@ include "template/sidebar.php"
 
                             $query_mysql = mysqli_query($host, "SELECT `id_user`, SUM(`jmlh_bibit`) AS `total_bibit` FROM `data-input` WHERE `tgl_tanam` BETWEEN '$firstDayOfWeek' AND '$today' GROUP BY `id_user` ORDER BY `total_bibit` DESC LIMIT 1;");
                             $data = mysqli_fetch_array($query_mysql);
-                            $id_user = $data['id_user'];
-                            $query_user = mysqli_query($host, "SELECT * FROM `user` WHERE `id` LIKE '$id_user'") or die(mysqli_error($host));
-                            $user = mysqli_fetch_array($query_user);
-                            echo $user["name"]
-
-
+                            if ($data != NULL) {
+                                $id_user = $data['id_user'];
+                                $query_user = mysqli_query($host, "SELECT * FROM `user` WHERE `id` LIKE '$id_user'") or die(mysqli_error($host));
+                                $user = mysqli_fetch_array($query_user);
+                                echo $user["name"];
+                            } else {
+                                echo "-";
+                            }
                             ?>
                         </h2>
                     </div>
@@ -113,9 +115,44 @@ include "template/sidebar.php"
             </div>
         </div>
         <?php
+        $query_persentase = mysqli_query(
+            $host,
+            "SELECT id_tanaman, SUM(jmlh_bibit) as total_bibit, 
+            ROUND(SUM(jmlh_bibit) / (SELECT SUM(jmlh_bibit) FROM `data-input`), 2) * 100 as presentase
+            FROM `data-input`
+            GROUP BY id_tanaman
+            ORDER BY total_bibit DESC
+            LIMIT 5;
+"
+        );
+        $id_buah = [];
+        $presentase_buah = [];
+        while ($row = mysqli_fetch_assoc($query_persentase)) {
+            $id = $row['id_tanaman'];
+            $presentase = $row['presentase'];
+            $id_tanaman = $id;
+            $queryNamaTanaman = mysqli_query($host, "SELECT * FROM `plant` WHERE `id` LIKE $id_tanaman") or die(mysqli_error($host));
+            $tanaman = mysqli_fetch_array($queryNamaTanaman);
+            $nama_buah[] =  $tanaman['nama'];
+            $presentase_buah[] =  (float) $presentase;
+        }
+        $buah = array(
+            "labels" => $nama_buah,
+            "datasets" => array(
+                array(
+                    'data' => $presentase_buah,
+                    'backgroundColor' => ['#007bff', '#dc3545', '#ffc107', '#28a745']
+                )
+            )
+        );
+        $json_pie = json_encode($buah);
+        // echo $json_pie;
+
+        ?>
+        <?php
         $query_mysql = mysqli_query(
             $host,
-            "SELECT WEEK(`tgl_tanam`) AS `minggu_ke`, SUM(`jmlh_bibit`) AS `total_bibit` FROM `data-input`GROUP BY `minggu_ke`;"
+            "SELECT WEEK(`tgl_tanam`) AS `minggu_ke`, SUM(`jmlh_bibit`) AS `total_bibit` FROM `data-input`GROUP BY `minggu_ke`LIMIT 8;"
         );
 
         $labels = [];
@@ -302,6 +339,21 @@ include "template/sidebar.php"
 </script>
 
 
+<!-- Pie Chart -->
+<script>
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+    // Pie Chart Example
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: <?php echo $json_pie ?>,
+    });
+</script>
+
+
 <footer class="py-4 bg-light mt-auto">
     <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between small">
@@ -316,7 +368,7 @@ include "template/sidebar.php"
 </div>
 <!-- <script src="assets/demo/chart-area-demo.js"></script> -->
 <!-- <script src="assets/demo/chart-bar-demo.js"></script> -->
-<script src="assets/demo/chart-pie-demo.js"></script>
+<!-- <script src="assets/demo/chart-pie-demo.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 </body>

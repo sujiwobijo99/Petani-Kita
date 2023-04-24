@@ -77,7 +77,7 @@ include "template/sidebar.php"
                             <?php
 
                             // menampilkan informasi cuaca saat ini
-                            echo $data->main->temp - 273.1 . " &#x2103;|&#x2109; Kelembaban " . $data->main->humidity . "%, Kecepatan Anggin " . $data->wind->speed . " m/s. " . $data->weather[0]->description;
+                            echo $data->main->temp - 273.1 . " &#x2103;|&#x2109; Kelembaban " . $data->main->humidity . "%, Kecepatan Angin " . $data->wind->speed . " m/s. " . $data->weather[0]->description;
                             ?>
 
 
@@ -86,7 +86,43 @@ include "template/sidebar.php"
                     </div>
                 </div>
             </div>
+            <?php
+            $id_user = $_SESSION['id'];
+            $query_persentase = mysqli_query(
+                $host,
+                "SELECT id_tanaman, SUM(jmlh_bibit) as total_bibit, 
+            ROUND(SUM(jmlh_bibit) / (SELECT SUM(jmlh_bibit) FROM `data-input` WHERE `id_user` = $id_user), 2) * 100 as presentase
+            FROM `data-input`
+            WHERE `id_user` = $id_user
+            GROUP BY id_tanaman
+            ORDER BY total_bibit DESC
+            LIMIT 5;
+"
+            );
+            $id_buah = [];
+            $presentase_buah = [];
+            while ($row = mysqli_fetch_assoc($query_persentase)) {
+                $id_plant = $row['id_tanaman'];
+                $presentase = $row['presentase'];
+                $id_tanaman = $id_plant;
+                $queryNamaTanaman = mysqli_query($host, "SELECT * FROM `plant` WHERE `id` LIKE $id_tanaman") or die(mysqli_error($host));
+                $tanaman = mysqli_fetch_array($queryNamaTanaman);
+                $nama_buah[] =  $tanaman['nama'];
+                $presentase_buah[] =  (float) $presentase;
+            }
+            $buah = array(
+                "labels" => $nama_buah,
+                "datasets" => array(
+                    array(
+                        'data' => $presentase_buah,
+                        'backgroundColor' => ['#007bff', '#dc3545', '#ffc107', '#28a745']
+                    )
+                )
+            );
+            $json_pie = json_encode($buah);
+            // echo $json_pie;
 
+            ?>
             <?php
             $query_mysql = mysqli_query(
                 $host,
@@ -196,6 +232,19 @@ include "template/sidebar.php"
         }
     });
 </script>
+<!-- Pie Chart -->
+<script>
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+    // Pie Chart Example
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: <?php echo $json_pie ?>,
+    });
+</script>
 
 
 <footer class="py-4 bg-light mt-auto">
@@ -212,7 +261,7 @@ include "template/sidebar.php"
 </div>
 <!-- <script src="assets/demo/chart-area-demo.js"></script> -->
 <!-- <script src="assets/demo/chart-bar-demo.js"></script> -->
-<script src="assets/demo/chart-pie-demo.js"></script>
+<!-- <script src="assets/demo/chart-pie-demo.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 </body>
