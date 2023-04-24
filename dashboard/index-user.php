@@ -101,14 +101,19 @@ include "template/sidebar.php"
             );
             $id_buah = [];
             $presentase_buah = [];
-            while ($row = mysqli_fetch_assoc($query_persentase)) {
-                $id_plant = $row['id_tanaman'];
-                $presentase = $row['presentase'];
-                $id_tanaman = $id_plant;
-                $queryNamaTanaman = mysqli_query($host, "SELECT * FROM `plant` WHERE `id` LIKE $id_tanaman") or die(mysqli_error($host));
-                $tanaman = mysqli_fetch_array($queryNamaTanaman);
-                $nama_buah[] =  $tanaman['nama'];
-                $presentase_buah[] =  (float) $presentase;
+            if (mysqli_fetch_assoc($query_persentase) != NULL) {
+                while ($row = mysqli_fetch_assoc($query_persentase)) {
+                    $id_plant = $row['id_tanaman'];
+                    $presentase = $row['presentase'];
+                    $id_tanaman = $id_plant;
+                    $queryNamaTanaman = mysqli_query($host, "SELECT * FROM `plant` WHERE `id` LIKE $id_tanaman") or die(mysqli_error($host));
+                    $tanaman = mysqli_fetch_array($queryNamaTanaman);
+                    $nama_buah[] =  $tanaman['nama'];
+                    $presentase_buah[] =  (float) $presentase;
+                }
+            } else {
+                $nama_buah[] =  $id_buah;
+                $presentase_buah[] =  $presentase_buah;
             }
             $buah = array(
                 "labels" => $nama_buah,
