@@ -220,7 +220,7 @@ include "template/sidebar.php"
                                                     <div class="col-sm" style="margin-top: -2rem;">
                                                         <label for="email" class="col-sm-3 col-form-label">Email</label>
                                                         <div class="col">
-                                                            <input type="text" class="form-control" id="email" name="email" value="<?php echo $data['email']; ?>">
+                                                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $data['email']; ?>">
                                                         </div>
                                                         <label for="name" class="col-sm-3 col-form-label">Nama Lengkap</label>
                                                         <div class="col">
