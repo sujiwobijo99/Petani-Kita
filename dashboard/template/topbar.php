@@ -8,7 +8,7 @@
             <ul class=" dropdown-menu">
                 <li><a class="dropdown-item" href="profil.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Profil</a></li>
                 <li><a class="dropdown-item" href="user-input.php?id=<?php echo $id ?>&role=<?php echo $role ?>">Data Input</a></li>
-                <li><a class="dropdown-item" href="login.php">Keluar</a></li>
+                <li><a class="dropdown-item" href="logout_fcn.php">Keluar</a></li>
             </ul>
         </div>
     </div>
