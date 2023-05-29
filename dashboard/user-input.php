@@ -143,11 +143,11 @@ include "template/sidebar.php"
                 <thead>
                     <tr>
                         <th>Nomor</th>
-                        <th>Nama Pengguna</th>
+                        <th>Nama Penguna</th>
                         <th>Tanaman</th>
                         <th>Daerah Tanam</th>
                         <th>Waktu Tanam</th>
-                        <th>Luas Area Tanam</th>
+                        <th>Jumlah Bibit Tanam</th>
                         <th>Estimasi Waktu Panen</th>
                         <th>Estimasi Hasil Panen</th>
                         <th>Status</th>
