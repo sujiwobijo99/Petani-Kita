@@ -13,18 +13,24 @@ $gender = $_POST['gender'];
 $targetfolder = "assets/img/foto/";
 
 $targetfolder = $targetfolder . basename($_FILES['file']['name']);
+if ($_FILES['file']['name'] != NULL) {
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $targetfolder)) {
 
-if (move_uploaded_file($_FILES['file']['tmp_name'], $targetfolder)) {
+        echo "The file " . basename($_FILES['file']['name']) . " is uploaded";
+        $file_name = $_FILES['file']['name'];
+    } else {
 
-    echo "The file " . basename($_FILES['file']['name']) . " is uploaded";
-    $file_name = $_FILES['file']['name'];
+        echo "Problem uploading file";
+        $file_name = "";
+    }
+
+
+    mysqli_query($host, "UPDATE `user` SET `name` = '$name', `email` = '$email', `pass` = '$pass', `phone` = '$phone', `gender` = '$gender', `foto` =  '$file_name' WHERE `user`.`id` = $id;") or die(mysqli_error($host));
+
+    header("location:manajemen-user.php?pesan=2");
 } else {
 
-    echo "Problem uploading file";
-    $file_name = "";
+    mysqli_query($host, "UPDATE `user` SET `name` = '$name', `email` = '$email', `pass` = '$pass', `phone` = '$phone', `gender` = '$gender' WHERE `user`.`id` = $id;") or die(mysqli_error($host));
+
+    header("location:manajemen-user.php?pesan=2");
 }
-
-
-mysqli_query($host, "UPDATE `user` SET `name` = '$name', `email` = '$email', `pass` = $pass, `phone` = '$phone', `gender` = '$gender', `foto` =  '$file_name' WHERE `user`.`id` = $id;") or die(mysqli_error($host));
-
-header("location:manajemen-user.php?pesan=2");
