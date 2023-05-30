@@ -114,6 +114,7 @@ include "template/sidebar.php"
                 </div>
             </div>
         </div>
+
         <?php
         $query_persentase = mysqli_query(
             $host,
@@ -170,9 +171,17 @@ include "template/sidebar.php"
             "labels" => $labels,
             "datasets" => array(
                 array(
-                    "label" => "Jumlah Bibit",
-                    "backgroundColor" => "rgba(2,117,216,1)",
+                    "label" => "Jumlah BIbit",
+                    "lineTension" => 0,
+                    "backgroundColor" => "rgba(2,117,216,0.2)",
                     "borderColor" => "rgba(2,117,216,1)",
+                    "pointRadius" => 5,
+                    "pointBackgroundColor" => "rgba(2,117,216,1)",
+                    "pointBorderColor" => "rgba(255,255,255,0.8)",
+                    "pointHoverRadius" => 5,
+                    "pointHoverBackgroundColor" => "rgba(2,117,216,1)",
+                    "pointHitRadius" => 50,
+                    "pointBorderWidth" => 2,
                     "data" => $jumlah_bibit
                 )
             )
@@ -191,7 +200,7 @@ include "template/sidebar.php"
                         <i class="fas fa-chart-bar me-1"></i>
                         Data Bibit Mingguan
                     </div>
-                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -302,22 +311,29 @@ include "template/sidebar.php"
     Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     Chart.defaults.global.defaultFontColor = '#292b2c';
 
-    // Bar Chart Example
-    var ctx = document.getElementById("myBarChart");
+
+
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+    // Area Chart Example
+    var ctx = document.getElementById("myAreaChart");
+
     var myLineChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: <?php echo $json_data; ?>,
         options: {
             scales: {
                 xAxes: [{
                     time: {
-                        unit: 'month'
+                        unit: 'week'
                     },
                     gridLines: {
                         display: false
                     },
                     ticks: {
-                        maxTicksLimit: 6
+                        maxTicksLimit: 7
                     }
                 }],
                 yAxes: [{
@@ -327,7 +343,7 @@ include "template/sidebar.php"
                         maxTicksLimit: 5
                     },
                     gridLines: {
-                        display: true
+                        color: "rgba(0, 0, 0, .125)",
                     }
                 }],
             },
