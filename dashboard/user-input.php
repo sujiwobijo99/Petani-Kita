@@ -149,7 +149,7 @@ include "template/sidebar.php"
                         <th>Waktu Tanam</th>
                         <th>Jumlah Bibit Tanam</th>
                         <th>Estimasi Waktu Panen</th>
-                        <th>Estimasi Hasil Panen</th>
+                        <th>Estimasi Hasil Panen (Kg)</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -163,7 +163,7 @@ include "template/sidebar.php"
                         <th>Waktu Tanam</th>
                         <th>Jumlah Bibit Tanam</th>
                         <th>Estimasi Waktu Panen</th>
-                        <th>Estimasi Hasil Panen</th>
+                        <th>Estimasi Hasil Panen (Kg)</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>

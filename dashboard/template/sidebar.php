@@ -54,10 +54,12 @@
                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
                                Data Input
                            </a>
-                           <a class="nav-link" href="leaderboard.php">
-                               <div class="sb-nav-link-icon"><i class="fas fa-layer-group"></i></div>
-                               Leaderboard
-                           </a>
+                           <?php if ($_SESSION['role'] > 1) { ?>
+                               <a class="nav-link" href="data-all.php">
+                                   <div class="sb-nav-link-icon"><i class="fas fa-layer-group"></i></div>
+                                   Data Keseluruhan
+                               </a>
+                           <?php } ?>
 
                            <a href="logout_fcn.php"><button type="button" class="btn btn-outline-primary" style="position: fixed;left: 50%;bottom: 20px;transform: translate(-50%, -50%);margin: 0 auto;">Keluar</button></a>
                            <!-- <div class="sb-sidenav-menu-heading">Interface</div>

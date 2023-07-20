@@ -1,14 +1,10 @@
 <?php
 session_start();
 include "query.php";
-if (!isset($_SESSION['admin'])) {
-    if (!isset($_SESSION['login'])) {
-        header("Location: login.php");
-        exit;
-    } else {
-        header("location:profil.php?id=$id&role=$role");
-        exit;
-    }
+
+if (!isset($_SESSION['login'])) {
+    header("Location: login.php");
+    exit;
 }
 
 ?>
