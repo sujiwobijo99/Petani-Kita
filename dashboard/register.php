@@ -21,26 +21,22 @@
                 <h1>Daftar Petani Kita !</h1>
                 <div class="input-daftar-1">
                     <label for="">Nama Akun</label>
-                    <input type="text" name="nama">
+                    <input type="text" name="nama" required>
                 </div>
                 <div class="input-daftar-2">
                     <label for="">Nomor Telfon</label>
-                    <input type="number" name="phone">
+                    <input type="number" name="phone" required>
                 </div>
                 <div class="input-daftar-3">
                     <label for="">Password</label>
-                    <input type="password" name="password">
+                    <input type="password" name="password" required>
                 </div>
                 <button type="submit" id="btn-daftar">Daftar Sekarang</button>
                 <a href="login.php">Sudah Memiliki Akun? Masuk!</a>
             </form>
         </div>
         <img src="assets/img/Daftar.png" alt="" width="50%">
-        <div class="popup" id="popup">
-            <h1>INFORMASI SISTEM</h1>
-            <p>Akun Telah Teregistrasi Ke Sistem, Silahkan Login</p>
-            <a href="login.php"><button type="button" id="login">Login</button></a>
-        </div>
+
     </div>
 
 

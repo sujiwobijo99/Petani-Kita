@@ -24,5 +24,5 @@ if (isset($id)) {
         header("location:index-user.php?id=$id&role=$role");
     }
 } else {
-    header("location:login.php?pesan=1");
+    header("location:login.php?pesan=1&phone=$phone");
 }
