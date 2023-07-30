@@ -116,7 +116,7 @@ include "template/sidebar.php"
                                         <label for="jmlh_bibit" class="col-form-label">Jumlah Bibit :</label>
                                         <div class="input-group">
                                             <input type="float" class="form-control" id="jmlh_bibit" name="jmlh_bibit">
-                                            <span class="input-group-text">Kg</span>
+                                            <span class="input-group-text">Gram</span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -258,7 +258,7 @@ include "template/sidebar.php"
                                                             <label for="jmlh_bibit" class="col-form-label">Jumlah Bibit :</label>
                                                             <div class="input-group">
                                                                 <input type="float" class="form-control" id="jmlh_bibit" name="jmlh_bibit" value="<?php echo $data['jmlh_bibit']; ?>">
-                                                                <span class="input-group-text">Kg</span>
+                                                                <span class="input-group-text">Gram</span>
                                                             </div>
                                                         </div>
                                                         <div class="mb-3">
