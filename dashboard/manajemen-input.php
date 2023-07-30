@@ -118,7 +118,10 @@ include "template/sidebar.php"
                                     </div>
                                     <div class="mb-3">
                                         <label for="jmlh_bibit" class="col-form-label">Jumlah Bibit :</label>
-                                        <input type="float" class="form-control" id="jmlh_bibit" name="jmlh_bibit"></input>
+                                        <div class="input-group">
+                                            <input type="float" class="form-control" id="jmlh_bibit" name="jmlh_bibit">
+                                            <span class="input-group-text">Kg</span>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="daerah" class="col-form-label">Daerah Tanam :</label>
@@ -126,7 +129,10 @@ include "template/sidebar.php"
                                     </div>
                                     <div class="mb-3">
                                         <label for="luas" class="col-form-label">Luas Area Tanam :</label>
-                                        <input type="float" class="form-control" id="luas" name="luas"></input>
+                                        <div class="input-group">
+                                            <input type="float" class="form-control" id="luas" name="luas">
+                                            <span class="input-group-text"> &#13217; </span>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="tgl_tanam" class="col-form-label">Tanggal Tanam :</label>
@@ -134,8 +140,8 @@ include "template/sidebar.php"
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
                             </form>
                         </div>
                     </div>
@@ -239,7 +245,7 @@ include "template/sidebar.php"
                                             <div class="modal-body">
                                                 <form action="edit_input_fcn.php" method="post">
                                                     <input type="text" style="opacity: 0" name="id" value="<?php echo $data['id']; ?>">
-                                                    <input type="text" style="opacity: 0" name="page" value="1">
+                                                    <input type="text" style="opacity: 0" name="page" value="2">
                                                     <div class="modal-body" style="margin-top: -2rem;">
                                                         <div class="mb-3">
                                                             <label for="nama" class="col-form-label">Tanaman:</label>
@@ -257,7 +263,10 @@ include "template/sidebar.php"
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="jmlh_bibit" class="col-form-label">Jumlah Bibit :</label>
-                                                            <input type="float" class="form-control" id="jmlh_bibit" name="jmlh_bibit" value="<?php echo $data['jmlh_bibit']; ?>"></input>
+                                                            <div class="input-group">
+                                                                <input type="float" class="form-control" id="jmlh_bibit" name="jmlh_bibit" value="<?php echo $data['jmlh_bibit']; ?>">
+                                                                <span class="input-group-text">Kg</span>
+                                                            </div>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="daerah" class="col-form-label">Daerah Tanam :</label>
@@ -265,7 +274,10 @@ include "template/sidebar.php"
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="luas" class="col-form-label">Luas Area Tanam :</label>
-                                                            <input type="float" class="form-control" id="luas" name="luas" value="<?php echo $data['luas']; ?>"></input>
+                                                            <div class="input-group">
+                                                                <input type="float" class="form-control" id="luas" name="luas" value="<?php echo $data['luas']; ?>">
+                                                                <span class="input-group-text"> &#13217; </span>
+                                                            </div>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="tgl_tanam" class="col-form-label">Tanggal Tanam :</label>
