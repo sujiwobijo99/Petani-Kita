@@ -54,7 +54,9 @@
                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
                                Data Input
                            </a>
-                           <?php if ($_SESSION['role'] > 1) { ?>
+                           <?php if ($_SESSION['role'] > 1) {
+
+                            ?>
                                <a class="nav-link" href="data-all.php">
                                    <div class="sb-nav-link-icon"><i class="fas fa-layer-group"></i></div>
                                    Data Keseluruhan
