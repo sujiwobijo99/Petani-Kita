@@ -118,8 +118,7 @@ include "template/sidebar.php"
         <?php
         $query_persentase = mysqli_query(
             $host,
-            "SELECT id_tanaman, SUM(jmlh_bibit) as total_bibit, 
-            ROUND(SUM(jmlh_bibit) / (SELECT SUM(jmlh_bibit) FROM `data-input`), 2) * 100 as presentase
+            "SELECT id_tanaman, SUM(jmlh_bibit) as total_bibit
             FROM `data-input`
             GROUP BY id_tanaman
             ORDER BY total_bibit DESC
@@ -127,21 +126,22 @@ include "template/sidebar.php"
 "
         );
         $id_buah = [];
-        $presentase_buah = [];
+        $estimai_panen = [];
         while ($row = mysqli_fetch_assoc($query_persentase)) {
             $id = $row['id_tanaman'];
-            $presentase = $row['presentase'];
+            $total_bibit = $row['total_bibit'];
             $id_tanaman = $id;
             $queryNamaTanaman = mysqli_query($host, "SELECT * FROM `plant` WHERE `id` LIKE $id_tanaman") or die(mysqli_error($host));
             $tanaman = mysqli_fetch_array($queryNamaTanaman);
-            $nama_buah[] =  $tanaman['nama'];
-            $presentase_buah[] =  (float) $presentase;
+            $nama_buah[] =  $tanaman['nama'] . " (Kg)";
+            $est_panen = $total_bibit  * $tanaman['febp'];
+            $estimai_panen[] =  (int) $est_panen;
         }
         $buah = array(
             "labels" => $nama_buah,
             "datasets" => array(
                 array(
-                    'data' => $presentase_buah,
+                    'data' => $estimai_panen,
                     'backgroundColor' => ['#007bff', '#dc3545', '#ffc107', '#28a745']
                 )
             )
